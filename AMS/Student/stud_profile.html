@@ -1,0 +1,241 @@
+<!doctype html>
+<?php
+include('session.php');
+?>
+<html lang="en">
+  <head>
+  <style>
+ /* define a fixed width for the entire menu */
+.navigation {
+  width: 300px;
+}
+
+/* reset our lists to remove bullet points and padding */
+.mainmenu, .submenu {
+list-style-type: circle;
+  padding: 0;
+  margin: 0;
+}
+
+/* make ALL links (main and submenu) have padding and background color */
+.mainmenu a {
+  display: block;
+  background-color: #2c3e50;
+  text-decoration: none;
+  padding: 10px;
+  color: white;
+  border-bottom: double;}
+
+/* add hover behaviour */
+.mainmenu a:hover {
+    background-color: #C5C5C5;
+}
+
+
+/* when hovering over a .mainmenu item,
+  display the submenu inside it.
+  we're changing the submenu's max-height from 0 to 200px;
+*/
+
+.mainmenu li:hover .submenu {
+  display: block;
+  max-height: 200px;
+}
+
+/*
+  we now overwrite the background-color for .submenu links only.
+  CSS reads down the page, so code at the bottom will overwrite the code at the top.
+*/
+
+.submenu a {
+  background-color: #999;
+  color:black;
+}
+
+/* hover behaviour for links inside .submenu */
+.submenu a:hover {
+  background-color: #666;
+  color:white;
+}
+
+/* this is the initial state of all submenus.
+  we set it to max-height: 0, and hide the overflowed content.
+*/
+.submenu {
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: all 0.5s ease-out;
+} 
+  
+.DataImage {
+    position: relative;
+    text-align: center;
+    color: black;
+	font-weight: bold;
+		font-size:20px;		
+}
+  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="Assests/images/favicon.ico">
+	<link href="Assests/dropdown.css" rel="stylesheet">
+
+  </head>
+		<title>Student Details</title>
+
+		<link rel="stylesheet" href="Assests/bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css"/>
+
+		<script src="Assests/jquery/jquery-3.2.1.js"></script>
+
+		<script src="Assests/bootstrap-4.0.0-beta.2-dist/js/bootstrap.bundle.js"></script>
+
+
+		<script>
+
+			//ajax method used on whole data of process_ajax.php
+			function ajax_func() {
+
+				xmlhttp = new XMLHttpRequest();
+
+				xmlhttp.onreadystatechange = function () {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById('ret_data').innerHTML = xmlhttp.responseText;
+					}
+				}
+
+				xmlhttp.open('GET', 'stud_profile.php', true);
+				xmlhttp.send();
+			}
+
+
+
+			// Update to Database
+
+			function update_form(update_id){
+
+				var update_form = document.getElementById('update_form'+update_id);
+
+				var update_course = document.getElementById('update_courseid'+update_id).value,
+					update_studname = document.getElementById('update_studname'+update_id).value,
+					update_email = document.getElementById('update_email'+update_id).value,
+					update_semno = document.getElementById('update_semno'+update_id).value,
+					update_dob = document.getElementById('update_dob'+update_id).value,
+					update_addr = document.getElementById('update_addr'+update_id).value;
+					update_phone = document.getElementById('update_phone'+update_id).value;
+					update_roll = document.getElementById('update_roll'+update_id).value;
+					
+
+				// takes the updated values and sends to the php update form.
+				xmlhttp.open('GET', 'stud_profile.php?update_form=yes&update_course='+update_course+'&update_studname='+update_studname+'&update_email='+update_email+'&update_semno='+update_semno+'&update_dob='+update_dob+'&update_addr='+update_addr+'&update_phone='+update_phone+'&update_roll='+update_roll, true);
+				xmlhttp.send();
+
+				$('#edit_student'+update_id).modal('hide');
+
+				update_form.reset();
+
+				return false;
+			}
+
+
+		</script>
+
+		<style type="text/css">
+       td{
+		padding:10px;
+	   }
+	   
+	   
+        </style>
+
+
+	</head>
+
+
+
+<!-- Bootstrap core CSS -->
+    <link href="Assests/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="Assests/css/dashboard.css" rel="stylesheet">
+  </head>
+
+ <body style="font-family:Verdana;font-size:16px;">
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	  	<img src="goa-logo.png" alt="attendance" style="width:40px;height:50px;" align="left">&nbsp;
+
+        <a class="navbar-brand" href="">GOA UNIVERSITY</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault" style="font-size:10;">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="StudentProfile.php">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+			  <li class="dropdown">
+				<a class="nav-link" href="javascript:void(0)" class="dropbtn">My Profile Settings</a>
+				<div class="dropdown-content">
+				  <a href="stud_profile.html">Edit Profile</a>
+				  <a href="MySubjects.html">My Subjects</a>
+				  <a href="changepassword.php">Change Password/Username</a>
+				  </font>
+				</div>
+			  </li>
+            </li>
+            
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+             <a class="nav-link" href="logout.php">Log Out</a>
+
+          </form>
+        </div>
+      </nav>
+    </header>
+
+<!--- Include Header.html -->
+
+<div class="container-fluid">
+      <div class="row">
+		  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+				<ul class="mainmenu nav nav-pills flex-column">
+					<li class="nav-item">
+						  <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
+					 </li>
+					<li class="nav-item"><a class="nav-link"href="Stud_AttendanceView.php">My Attendance</a></li>
+					<li class="nav-item"><a class="nav-link"href="ViewTimetable.html">Timetable</a></li>
+					<li class="nav-item"><a class="nav-link"href="Enroll.html">Subjects</a></li>
+					<li><a href="SemesterReport.php">Attendance Report</a></li>
+					<li><a href="stud_notify.php">Messages</a></li>
+
+				</ul>          
+			  
+			</nav>
+          
+          <!-- Include submenu.html here -->
+
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+			<h2 align="center">STUDENT PROFILE</h2>
+			<hr>
+		
+		<!-- onload: when a page loads/reloads it will run the ajax function -->
+	<body onload="ajax_func();">
+
+
+		<table style="border-color:white;">
+				<thead>
+					<tr>
+						
+					</tr>
+				</thead>
+				<tbody id="ret_data">
+				
+
+
+					
+				</tbody>
+		</table>

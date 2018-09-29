@@ -1,0 +1,225 @@
+<!doctype html>
+<?php
+include('session.php');
+?>
+<html lang="en">
+  <head>
+  
+<link rel="stylesheet" href="Assests/bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css"/>
+
+		<script src="Assests/jquery/jquery-3.2.1.js"></script>
+
+		<script src="Assests/bootstrap-4.0.0-beta.2-dist/js/bootstrap.bundle.js"></script>
+
+  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="Assests/images/favicon.ico">
+	<link href="Assests/dropdown.css" rel="stylesheet">
+	<link href="Assests/menu.css" rel="stylesheet">
+	<link href="Assests/AddCourses.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="Assests/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="Assests/css/dashboard.css" rel="stylesheet">
+
+		<title>Timetable Details</title>
+		<script>
+
+			function ajax_func() {
+				
+				xmlhttp = new XMLHttpRequest();
+
+				xmlhttp.onreadystatechange = function () {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById('ret_data').innerHTML = xmlhttp.responseText;
+					}
+				}
+
+				//dont use retreve.php?ajax_func=yes as it will show all entries from database
+				xmlhttp.open('GET', 'retrieve.php', true);
+				xmlhttp.send();
+			}
+
+			//Alternate ajax method used on whole data of retrieve.php after filtering 
+			// made this function to use the filters sending the values through here 
+			function filter_func() {
+				
+				var sfilter = document.getElementById('semfilter').value;
+
+				// use this code to display the result for other filters 
+					xmlhttp.onreadystatechange = function () {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						document.getElementById('ret_data').innerHTML = xmlhttp.responseText;
+					}
+				}
+
+				
+				xmlhttp.open('GET', 'retrieve.php?filter_func=yes&sfilter='+sfilter, true);
+				xmlhttp.send();
+
+			}
+
+
+		</script>
+
+		<style type="text/css">        
+        th,td
+        {
+            margin: 0;
+            text-align: center;
+            border-collapse: collapse;
+            outline: 1px solid #e3e3e3;
+        }
+
+        td
+        {
+            padding: 5px 10px;
+        }
+
+        th
+        {
+            background-color:#000033;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        td:hover
+        {
+            cursor: pointer;
+            background: #619;
+            color: white;
+        }
+        </style>
+
+	</head>
+	  <body style="font-family:Verdana;font-size:16px;">
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	  	<img src="goa-logo.png" alt="attendance" style="width:40px;height:50px;" align="left">
+
+        <a class="navbar-brand" href=""> GOA UNIVERSITY</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="AdminProfile.php">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+			  <li class="dropdown">
+				<a class="nav-link" href="javascript:void(0)" class="dropbtn">My Profile Settings</a>
+				<div class="dropdown-content">
+				<a href="profile.html">Edit Profile</a>
+				  <a href="changepassword.php">Change Password/Username</a>
+				</div>
+			  </li>
+            </li>
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+            <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+			 <a class="nav-link" href="logout.php">Log Out</a>
+
+          </form>
+        </div>
+      </nav>
+    </header>
+
+<!--- Include Header.html -->
+<div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+			<ul class="mainmenu nav nav-pills flex-column">
+				<li class="nav-item">
+					  <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
+				 </li>
+				<li class="nav-item"><a class="nav-link"href="AddSubjects.php">Subjects</a></li>
+				<li class="nav-item"><a class="nav-link"href="studIndex.php">Student Details</a></li>
+				<li class="nav-item"><a class="nav-link"href="facIndex.php">Faculty Details</a></li>
+				
+				<li class="nav-item"><a class="nav-link"href="">Attendance</a>
+				  <ul class="submenu">
+					<li><a href="ViewAttendance.php">View Attendance</a></li>
+					<li><a href="blacklist.php">Attendance Report</a></li>
+				  </ul>
+				</li>
+				<li class="nav-item"><a class="nav-link"href="">Timetable</a>
+				  <ul class="submenu">
+					<li><a href="timetable.php">Create Timetable</a></li>
+					<li><a href="ViewTimetable.html">View Timetable</a></li>
+				  </ul>
+				</li>
+				<li><a href="notify.php">Messages</a></li>
+
+			</ul>          
+          
+        </nav>
+		<!-- Include submenu.html here -->
+	<main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">	
+
+	<h2 align="middle">TIMETABLE</h2>
+	<hr>
+
+
+	<body onload="ajax_func();">
+
+		<div class="text-center">
+			<form">
+				<div>					
+			        <label for="semfilter">Filter Semester</label>
+			   		<label for="select"></label>
+						<select name="semfilter" id="semfilter">
+			                <option value="0">Semester Options</option>
+			                <option value="1">Sem I</option>
+			                <option value="2">Sem II</option>
+			                <option value="3">Sem III</option>
+			                <option value="4">Sem IV</option>
+			                <option value="5">Sem V</option>
+			            </select>
+
+					<!-- use onclick for button instead of onsubmit as submit reloads the page -->
+			   		<button class="btn btn-danger btn-sm" data-target="#deptfilter" style="margin-right: 5px;" onclick="filter_func();">Filter</button>	
+			   	</div>			
+			</form>
+		</div>
+
+		<div class="container">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+					<button id="myBtn" onclick="myFunction()">Print</button><br/><br>
+					<script>
+					function myFunction() {
+						window.print();
+					}
+					</script>
+					
+						<th>Time</th>
+						<th>Monday</th>
+						<th>Tuesday</th>
+						<th>Wednesday</th>
+						<th>Thursday</th>
+						<th>Friday</th>
+					</tr>
+				</thead>
+				<tbody id="ret_data">
+				
+
+
+					
+				</tbody>
+			</table>
+		</div>
+	</body>
+	
+	
+
+
+</html>
